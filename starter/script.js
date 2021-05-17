@@ -7,6 +7,9 @@ roundScore = 0;
 activePlayer = 0;
 
 
+function reset()
+{
+
 // Hidding the Dice
 document.querySelector('.dice').style.display = 'none';
 
@@ -15,6 +18,40 @@ document.getElementById('current--0').textContent = '0';
 document.getElementById('current--1').textContent = '0';
 document.getElementById('score--0').textContent = '0';
 document.getElementById('score--1').textContent = '0';
+
+// Adding  background
+document.querySelector('.player--' + activePlayer).classList.add('player--active');
+
+// Adding player value
+document.querySelector('#name--0').textContent =" Player 1";
+document.querySelector('#name--1').textContent =" Player 2";
+
+// unHide buttons
+document.querySelector('.btn--roll').style.display ='block';
+document.querySelector('.btn--hold').style.display ='block';
+}
+
+reset()
+
+
+function nextPlayer()
+{
+    // Removing background
+    document.querySelector('.player--' + activePlayer).classList.remove('player--active');
+
+    
+
+    //  Making current value 0
+    document.getElementById('current--' + activePlayer).textContent = '0';
+    roundScore = 0;
+
+   
+    // Changing player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+
+    // Adding  background
+    document.querySelector('.player--' + activePlayer).classList.add('player--active');
+}
 
 
 // It will take two argument - first event , second function
@@ -50,44 +87,7 @@ document.querySelector('.btn--roll').addEventListener('click', function() {
         }
         else
         {
-            // Hiding the dice 
-            document.querySelector('.dice').style.display = 'none';
-             
-
-            // change player
-            if(activePlayer === 0)
-            {
-                //  Making current value 0
-                document.getElementById('current--' + activePlayer).textContent = '0';
-                roundScore = 0;
-
-                // Removing background
-                document.querySelector('.player--' + activePlayer).classList.remove('player--active');
-
-                // Changing player
-                activePlayer = 1;
-
-                // Adding  background
-                document.querySelector('.player--' + activePlayer).classList.add('player--active');
-            }
-
-            else
-            {
-                //  Making current value 0
-                document.getElementById('current--' + activePlayer).textContent = '0';
-                roundScore = 0;
-
-
-                // Removing background
-                document.querySelector('.player--' + activePlayer).classList.remove('player--active');
-                
-
-                // Changing player
-                activePlayer = 0;
-
-                // Adding  background
-                document.querySelector('.player--' + activePlayer).classList.add('player--active');
-            }
+            nextPlayer();
         }
 });
 
@@ -98,41 +98,31 @@ document.querySelector('.btn--hold').addEventListener('click', function() {
         document.querySelector('#score--'+ activePlayer).textContent = scores[activePlayer];
         
 
-        // update the UI
-
-            // Hidding the Dice
-        document.querySelector('.dice').style.display = 'none';
-
-            // Removing background
-        document.querySelector('.player--' + activePlayer).classList.remove('player--active');
-
-            //  Making current value 0
-        document.getElementById('current--' + activePlayer).textContent = '0';
-        roundScore = 0;
-
-        
-        // Changing player
-        let otherPlayer = activePlayer === 0 ? 1 : 0;
-
-       
         // check if player won the game
-        if (scores[activePlayer] >= 10)
+        if (scores[activePlayer] >= 100)
         {
-            document.querySelector('#score--'+ activePlayer).textContent =" WIN";
-            document.querySelector('#score--'+ otherPlayer).textContent =" LOOSE";
+            document.querySelector('#name--'+ activePlayer).textContent =" Winner!";
 
             // Hide buttons
             document.querySelector('.btn--roll').style.display ='none';
             document.querySelector('.btn--hold').style.display ='none';
+
+            //clearing current value
+            document.getElementById('current--' + activePlayer).textContent = '0';
+
+            // Adding winner class
+            document.querySelector('#name--'+ activePlayer).classList.add('player--winner');
+
+            // Removing background
+            document.querySelector('.player--' + activePlayer).classList.remove('player--active');
+
+            // Hidding the Dice
+            document.querySelector('.dice').style.display = 'none';
         }
         else
         {
-            activePlayer = otherPlayer;
-        }
-
-         // Adding  background
-         document.querySelector('.player--' + activePlayer).classList.add('player--active');
-
-         
-
+            nextPlayer()
+        }  
 });
+
+document.querySelector('.btn--new').addEventListener('click', reset);
