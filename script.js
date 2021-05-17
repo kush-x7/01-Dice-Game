@@ -2,13 +2,13 @@
 
 let scores, roundScore, activePlayer;
 
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0;
 
 
 function reset()
 {
+scores = [0, 0];
+roundScore = 0;
+activePlayer = 0;
 
 // Hidding the Dice
 document.querySelector('.dice').style.display = 'none';
